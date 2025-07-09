@@ -6,6 +6,7 @@ AWS_S3_QUOTA_BYTES = int(os.getenv("AWS_S3_QUOTA_BYTES", "0"))
 
 s3 = boto3.client("s3")
 
+
 def get_s3_bucket_size():
     paginator = s3.get_paginator('list_objects_v2')
     total_size = 0
@@ -13,6 +14,7 @@ def get_s3_bucket_size():
         for obj in page.get('Contents', []):
             total_size += obj['Size']
     return total_size
+
 
 def update_storage_metrics(storage_used_gauge, storage_total_gauge):
     used_bytes = get_s3_bucket_size()

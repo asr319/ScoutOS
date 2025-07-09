@@ -10,14 +10,21 @@ MEMORY_REPAIR_LATENCY_SECONDS = Histogram(
     buckets=(0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1, 2, 5),
 )
 
-ACTIVE_USERS_TOTAL = Gauge("scoutos_active_users_total", "Current number of active users")
-
-UNAUTHORIZED_ACCESS_TOTAL = Counter(
-    "scoutos_unauthorized_access_total", "Count of unauthorized access attempts"
+ACTIVE_USERS_TOTAL = Gauge(
+    "scoutos_active_users_total", "Current number of active users"
 )
 
-STORAGE_USED_BYTES = Gauge("scoutos_storage_used_bytes", "Storage used in bytes")
-STORAGE_TOTAL_BYTES = Gauge("scoutos_storage_total_bytes", "Total storage available in bytes")
+UNAUTHORIZED_ACCESS_TOTAL = Counter(
+    "scoutos_unauthorized_access_total",
+    "Count of unauthorized access attempts",
+)
+
+STORAGE_USED_BYTES = Gauge(
+    "scoutos_storage_used_bytes", "Storage used in bytes"
+)
+STORAGE_TOTAL_BYTES = Gauge(
+    "scoutos_storage_total_bytes", "Total storage available in bytes"
+)
 
 USER_SESSIONS_TOTAL = Counter(
     "scoutos_user_sessions_total",
@@ -25,5 +32,9 @@ USER_SESSIONS_TOTAL = Counter(
     ['user_language'],
 )
 
-CONSENT_PROMPTED_TOTAL = Counter("scoutos_consent_prompted_total", "Number of consent prompts shown")
-CONSENT_ACCEPTED_TOTAL = Counter("scoutos_consent_accepted_total", "Number of consents accepted")
+CONSENT_PROMPTED_TOTAL = Counter(
+    "scoutos_consent_prompted_total", "Number of consent prompts shown"
+)
+CONSENT_ACCEPTED_TOTAL = Counter(
+    "scoutos_consent_accepted_total", "Number of consents accepted"
+)

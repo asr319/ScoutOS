@@ -21,3 +21,8 @@ RUNNER_ALLOW_RUNASROOT=1 ./config.sh --url https://github.com/asr319/ScoutOS --t
 ```
 
 Replace `<TOKEN>` with the registration token from your repository settings.
+
+## Development Notes
+
+The backend code now follows basic `flake8` conventions for improved readability.
+The Docker build workflow now points to `ScoutOS/backend/Dockerfile`.

@@ -2,6 +2,7 @@ import asyncio
 from metrics_utils import get_storage_usage, get_active_users_count
 from metrics import ACTIVE_USERS_TOTAL, STORAGE_USED_BYTES, STORAGE_TOTAL_BYTES
 
+
 async def update_metrics_periodically():
     while True:
         active_users = await get_active_users_count()
@@ -12,6 +13,7 @@ async def update_metrics_periodically():
         STORAGE_TOTAL_BYTES.set(total_bytes)
 
         await asyncio.sleep(60)
+
 
 async def start_background_tasks():
     asyncio.create_task(update_metrics_periodically())
