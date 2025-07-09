@@ -23,7 +23,7 @@ if ! command -v docker &> /dev/null; then
   curl -fsSL https://get.docker.com -o get-docker.sh
   sudo sh get-docker.sh
   rm get-docker.sh
-  sudo usermod -aG docker $USER
+  sudo usermod -aG docker "$USER"
 fi
 
 # 3. Install Docker Compose if missing or outdated
@@ -37,15 +37,15 @@ fi
 # 4. Clone or update ScoutOS repo
 if [ ! -d "$APP_DIR" ]; then
   echo "Cloning ScoutOS repository..."
-  git clone $REPO_URL $APP_DIR
+  git clone "$REPO_URL" "$APP_DIR"
 else
   echo "Updating ScoutOS repository..."
-  cd $APP_DIR
+  cd "$APP_DIR"
   git fetch origin
   git reset --hard origin/$BRANCH
 fi
 
-cd $APP_DIR
+cd "$APP_DIR"
 
 # 5. Build and run containers
 echo "Building and starting Docker containers..."
