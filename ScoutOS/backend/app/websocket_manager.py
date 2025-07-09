@@ -1,6 +1,7 @@
 from typing import Dict, List
 from fastapi import WebSocket
 
+
 class ConnectionManager:
     def __init__(self):
         self.active_connections: Dict[str, List[WebSocket]] = {}
@@ -21,5 +22,6 @@ class ConnectionManager:
         for user_connections in self.active_connections.values():
             for connection in user_connections:
                 await connection.send_text(message)
+
 
 manager = ConnectionManager()

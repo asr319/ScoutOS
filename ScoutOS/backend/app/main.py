@@ -6,9 +6,11 @@ app = FastAPI()
 
 app.include_router(api_router)
 
+
 @app.on_event("startup")
 async def startup_event():
     await start_background_tasks()
+
 
 @app.get("/health")
 async def health_check():
