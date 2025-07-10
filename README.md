@@ -11,6 +11,7 @@ Before running the server setup script, open `setup_scoutos_server.sh` and adjus
 The `ScoutOS` folder now contains a FastAPI backend with a Docker-based deployment setup. Run `docker-compose up` inside that directory to start the development stack.
 
 The stack now includes a React dashboard served from the `frontend` container. Visit `http://localhost:3000` after running Docker Compose to see live metrics update over WebSockets.
+You can also experiment with the AI chat interface at `/chat.html` which connects to the backend AI API.
 
 The backend now exposes an AI API at `/api/ai/prompt`. Each request persists the prompt and generated response in a local SQLite database so the agent can recall prior interactions.
 

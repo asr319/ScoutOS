@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>ScoutOS Chat</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; }
+    #messages { border: 1px solid #ccc; padding: 1em; height: 300px; overflow-y: auto; }
+    .msg { margin-bottom: 0.5em; }
+    .user { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script type="text/babel">
+    function ChatApp() {
+      const [messages, setMessages] = React.useState([]);
+      const [input, setInput] = React.useState('');
+
+      async function sendMessage() {
+        if (!input) return;
+        const userMsg = { type: 'user', text: input };
+        setMessages(msgs => [...msgs, userMsg]);
+        setInput('');
+        try {
+          const res = await fetch('/api/ai-chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: input }),
+          });
+          const data = await res.json();
+          const botMsg = { type: 'bot', text: data.reply };
+          setMessages(msgs => [...msgs, botMsg]);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      return (
+        <div>
+          <h1>AI Chat</h1>
+          <div id="messages">
+            {messages.map((m, i) => (
+              <div key={i} className="msg">
+                <span className={m.type}>{m.type === 'user' ? 'You:' : 'AI:'}</span>
+                <span dangerouslySetInnerHTML={{ __html: ' ' + m.text }} />
+              </div>
+            ))}
+          </div>
+          <textarea
+            rows="3"
+            style={{ width: '100%' }}
+            value={input}
+            onChange={e => setInput(e.target.value)}
+          />
+          <button onClick={sendMessage}>Send</button>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<ChatApp />);
+  </script>
+</body>
+</html>
