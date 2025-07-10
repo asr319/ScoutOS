@@ -4,9 +4,15 @@ This repository contains the code and server setup script for deploying ScoutOS.
 
 To provision a new server, run the `setup_scoutos_server.sh` script on your Ubuntu-based host. The script installs Docker, clones this repository, configures Nginx with SSL, and sets up monitoring via Prometheus Node Exporter.
 
+## Configuring setup variables
+
+Before running the server setup script, open `setup_scoutos_server.sh` and adjust the values defined near the top of the file. Variables like `REPO_URL`, `DOMAIN` and `EMAIL` should be customized to match your environment.
+
 The `ScoutOS` folder now contains a FastAPI backend with a Docker-based deployment setup. Run `docker-compose up` inside that directory to start the development stack.
 
-For information on how to report security issues, see [SECURITY.md](SECURITY.md).
+The stack now includes a React dashboard served from the `frontend` container. Visit `http://localhost:3000` after running Docker Compose to see live metrics update over WebSockets.
+
+For details on how to report vulnerabilities, see [SECURITY.md](SECURITY.md). Our workflow is to accept reports via email or GitHub's security advisories. The listed address is `security@example.com` as a placeholder—replace it with the real project contact.
 
 ## Setting up a self-hosted GitHub Actions runner
 
