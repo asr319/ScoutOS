@@ -6,7 +6,7 @@ To provision a new server, run the `setup_scoutos_server.sh` script on your Ubun
 
 ## Configuring setup variables
 
-Before running the server setup script, open `setup_scoutos_server.sh` and adjust the values defined near the top of the file. Variables like `REPO_URL`, `DOMAIN` and `EMAIL` should be customized to match your environment.
+Before running the server setup script, open `setup_scoutos_server.sh` and adjust the values defined near the top of the file. Variables like `REPO_URL`, `DOMAIN` and `EMAIL` should be customized to match your environment. For automated deployments, an identical script is available at `ScoutOS/scripts/setup_scoutos_server.sh`.
 
 The `ScoutOS` folder now contains a FastAPI backend with a Docker-based deployment setup. Run `docker-compose up` inside that directory to start the development stack.
 
