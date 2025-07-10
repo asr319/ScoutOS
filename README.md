@@ -31,10 +31,11 @@ The Docker build workflow now points to `ScoutOS/backend/Dockerfile`.
 
 The `docs/` directory contains the homepage used for GitHub Pages. To publish it:
 
-1. Open repository **Settings** > **Pages**.
-2. Select the `live_update` branch and `/docs` as the folder.
-3. Enable **Enforce HTTPS** for secure connections.
-4. Keep the repository private so only authorized collaborators can view the site.
-5. Protect the `live_update` branch to restrict updates.
+1. Create a branch named `live_update` from your default branch if it doesn't exist.
+2. Open repository **Settings** > **Pages**.
+3. Select the `live_update` branch and `/docs` as the folder.
+4. Enable **Enforce HTTPS** for secure connections.
+5. Keep the repository private so only authorized collaborators can view the site.
+6. Protect the `live_update` branch to restrict updates.
 
 Once saved, GitHub Pages will serve `docs/index.md` from that branch.
