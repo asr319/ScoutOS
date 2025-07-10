@@ -1,7 +1,11 @@
 import asyncio
 import json
 from .metrics_utils import get_storage_usage, get_active_users_count
-from .metrics import ACTIVE_USERS_TOTAL, STORAGE_USED_BYTES, STORAGE_TOTAL_BYTES
+from .metrics import (
+    ACTIVE_USERS_TOTAL,
+    STORAGE_USED_BYTES,
+    STORAGE_TOTAL_BYTES,
+)
 from .websocket_manager import manager
 
 
@@ -19,7 +23,9 @@ async def update_metrics_periodically():
             "storage_used_bytes": used_bytes,
             "storage_total_bytes": total_bytes,
         }
-        await manager.broadcast(json.dumps({"type": "metrics", "data": metrics_data}))
+        await manager.broadcast(
+            json.dumps({"type": "metrics", "data": metrics_data})
+        )
 
         await asyncio.sleep(60)
 

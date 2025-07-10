@@ -1,5 +1,7 @@
 import os
-from .session_manager import get_active_users_count as session_active_users_count
+from .session_manager import (
+    get_active_users_count as session_active_users_count,
+)
 
 
 async def get_storage_usage(path: str):
