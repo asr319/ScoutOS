@@ -7,13 +7,25 @@ from fastapi import (
     WebSocket,
     WebSocketDisconnect,
 )
+from sqlalchemy.orm import Session
 from .auth import get_current_user
 from .websocket_manager import manager
 from .consent import get_consent_message
+from .database import SessionLocal
+from .ai import save_prompt
+from .schemas import AIPrompt
 import logging
 
 
 router = APIRouter()
+
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 
 @router.get("/handshake")
@@ -57,6 +69,17 @@ async def upload_document(
 @router.get("/consent-message")
 async def consent_message(lang: str = Query("en")):
     return {"message": get_consent_message(lang)}
+
+
+@router.post("/ai/prompt")
+async def ai_prompt(
+    data: AIPrompt,
+    user_id: str = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    response = data.prompt[::-1]
+    save_prompt(db, user_id, data.prompt, response)
+    return {"response": response}
 
 
 @router.post("/request-merge")
