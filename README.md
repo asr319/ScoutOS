@@ -8,7 +8,7 @@ The `ScoutOS` folder now contains a FastAPI backend with a Docker-based deployme
 
 The stack now includes a React dashboard served from the `frontend` container. Visit `http://localhost:3000` after running Docker Compose to see live metrics update over WebSockets.
 
-For information on how to report security issues, see [SECURITY.md](SECURITY.md).
+For details on how to report vulnerabilities, see [SECURITY.md](SECURITY.md). Our workflow is to accept reports via email or GitHub's security advisories. The listed address is `security@example.com` as a placeholder—replace it with the real project contact.
 
 ## Setting up a self-hosted GitHub Actions runner
 
