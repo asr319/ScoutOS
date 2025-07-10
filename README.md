@@ -26,3 +26,15 @@ Replace `<TOKEN>` with the registration token from your repository settings.
 
 The backend code now follows basic `flake8` conventions for improved readability.
 The Docker build workflow now points to `ScoutOS/backend/Dockerfile`.
+
+## GitHub Pages
+
+The `docs/` directory contains the homepage used for GitHub Pages. To publish it:
+
+1. Open repository **Settings** > **Pages**.
+2. Select the `live_update` branch and `/docs` as the folder.
+3. Enable **Enforce HTTPS** for secure connections.
+4. Keep the repository private so only authorized collaborators can view the site.
+5. Protect the `live_update` branch to restrict updates.
+
+Once saved, GitHub Pages will serve `docs/index.md` from that branch.
