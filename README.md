@@ -9,6 +9,7 @@ To provision a new server, run the `setup_scoutos_server.sh` script on your Ubun
 Before running the server setup script, open `setup_scoutos_server.sh` and adjust the values defined near the top of the file. Variables like `REPO_URL`, `DOMAIN` and `EMAIL` should be customized to match your environment. For automated deployments, an identical script is available at `ScoutOS/scripts/setup_scoutos_server.sh`.
 
 The `ScoutOS` folder now contains a FastAPI backend with a Docker-based deployment setup. Run `docker-compose up` inside that directory to start the development stack.
+An additional example project lives in the `scoutos/` directory with a similar layout and a helper script for automated deployments.
 
 The stack now includes a React dashboard served from the `frontend` container. Visit `http://localhost:3000` after running Docker Compose to see live metrics update over WebSockets.
 You can also experiment with the AI chat interface at `/chat.html` which connects to the backend AI API. The chat page sends JSON `{"prompt": "text"}` to `/api/ai/prompt` and displays the `response` field from the server.

@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+gunicorn
+python-multipart
+pydantic
+aioredis
+boto3
+prometheus-client
+python-jose[cryptography]
