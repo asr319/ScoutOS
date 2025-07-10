@@ -15,6 +15,10 @@ You can also experiment with the AI chat interface at `/chat.html` which connect
 
 The backend now exposes an AI API at `/api/ai/prompt`. Each request persists the prompt and generated response in a local SQLite database so the agent can recall prior interactions.
 
+## Backend configuration
+
+Set a strong `SECRET_KEY` environment variable before starting the backend. If this variable isn't defined, the app defaults to a testing key which should not be used in production.
+
 For details on how to report vulnerabilities, see [SECURITY.md](SECURITY.md). Our workflow is to accept reports via email or GitHub's security advisories. The listed address is `security@example.com` as a placeholder—replace it with the real project contact.
 
 ## Setting up a self-hosted GitHub Actions runner

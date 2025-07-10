@@ -8,6 +8,7 @@ oauth2_scheme = OAuth2AuthorizationCodeBearer(
     tokenUrl=os.getenv("OAUTH_TOKEN_URL", ""),
 )
 
+# Default key is for testing only. Set SECRET_KEY in the environment for production.
 SECRET_KEY = os.getenv("SECRET_KEY", "CHANGE_ME")
 ALGORITHM = "HS256"
 
