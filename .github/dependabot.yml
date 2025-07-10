@@ -7,19 +7,19 @@ version: 2
 updates:
   # React frontend (npm)
   - package-ecosystem: "npm"
-    directory: "/client"
+    directory: "/ScoutOS/frontend"
     schedule:
       interval: "weekly"
 
   # Python backend (pip)
   - package-ecosystem: "pip"
-    directory: "/backend"
+    directory: "/ScoutOS/backend"
     schedule:
       interval: "weekly"
 
   # Dockerfile in backend
   - package-ecosystem: "docker"
-    directory: "/backend"
+    directory: "/ScoutOS/backend"
     schedule:
       interval: "weekly"
 
