@@ -36,6 +36,7 @@ Replace `<TOKEN>` with the registration token from your repository settings.
 The backend code now follows basic `flake8` conventions for improved readability.
 The Docker build workflow now points to `ScoutOS/backend/Dockerfile`.
 Dependabot now monitors dependencies in `ScoutOS/backend` and `ScoutOS/frontend`.
+Our CodeQL workflow scans both the Python backend and GitHub Actions workflows to catch issues early.
 
 ## GitHub Pages
 
