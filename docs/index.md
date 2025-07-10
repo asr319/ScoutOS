@@ -1,4 +1,3 @@
-# Welcome to ScoutOS
 This page is hosted with **GitHub Pages**.
 
 ScoutOS provides a lightweight monitoring and deployment platform. The stack
