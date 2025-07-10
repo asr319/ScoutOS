@@ -11,7 +11,13 @@ class ConnectionManager:
         self.active_connections.setdefault(user_id, []).append(websocket)
 
     def disconnect(self, user_id: str, websocket: WebSocket):
-        self.active_connections.get(user_id, []).remove(websocket)
+        connections = self.active_connections.get(user_id, [])
+        try:
+            connections.remove(websocket)
+            if not connections:
+                self.active_connections.pop(user_id, None)
+        except ValueError:
+            pass
 
     async def send_personal_message(self, message: str, user_id: str):
         connections = self.active_connections.get(user_id, [])

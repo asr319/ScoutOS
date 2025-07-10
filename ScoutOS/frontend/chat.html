@@ -29,10 +29,10 @@
           const res = await fetch('/api/ai/prompt', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: input }),
+            body: JSON.stringify({ prompt: input }),
           });
           const data = await res.json();
-          const botMsg = { type: 'bot', text: data.reply };
+          const botMsg = { type: 'bot', text: data.response };
           setMessages(msgs => [...msgs, botMsg]);
         } catch (err) {
           console.error(err);
