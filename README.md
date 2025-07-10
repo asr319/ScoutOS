@@ -6,7 +6,7 @@ To provision a new server, run the `setup_scoutos_server.sh` script on your Ubun
 
 The `ScoutOS` folder now contains a FastAPI backend with a Docker-based deployment setup. Run `docker-compose up` inside that directory to start the development stack.
 
-The stack now also includes a lightweight dashboard served from the `frontend` container. Visit `http://localhost:3000` after running Docker Compose to view active user and storage metrics.
+The stack now includes a React dashboard served from the `frontend` container. Visit `http://localhost:3000` after running Docker Compose to see live metrics update over WebSockets.
 
 For information on how to report security issues, see [SECURITY.md](SECURITY.md).
 

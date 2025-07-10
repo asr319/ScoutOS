@@ -1,31 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   <title>ScoutOS Dashboard</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 2em; }
     .metric { margin-bottom: 1em; }
+    .message { border-bottom: 1px solid #ccc; padding: 4px 0; }
   </style>
 </head>
 <body>
-  <h1>ScoutOS Dashboard</h1>
-  <div id="metrics">Loading...</div>
-  <script>
-    async function loadMetrics() {
-      try {
-        const res = await fetch('/api/dashboard');
-        if (!res.ok) throw new Error('Request failed');
-        const data = await res.json();
-        document.getElementById('metrics').innerHTML = `
-          <div class="metric">Active Users: ${data.active_users}</div>
-          <div class="metric">Storage Used: ${data.storage_used_bytes} / ${data.storage_total_bytes} bytes</div>
-        `;
-      } catch (err) {
-        document.getElementById('metrics').textContent = 'Failed to load metrics';
-      }
+  <div id="root">Loading...</div>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script type="text/babel">
+    function App() {
+      const [metrics, setMetrics] = React.useState(null);
+      const [messages, setMessages] = React.useState([]);
+
+      React.useEffect(() => {
+        async function load() {
+          try {
+            const res = await fetch('/api/dashboard');
+            const data = await res.json();
+            setMetrics(data);
+          } catch (err) {
+            console.error(err);
+          }
+        }
+        load();
+        const ws = new WebSocket(`ws://${window.location.host}/ws/guest`);
+        ws.onmessage = event => {
+          setMessages(msgs => [...msgs, event.data]);
+        };
+        return () => ws.close();
+      }, []);
+
+      return (
+        <div>
+          <h1>ScoutOS Dashboard</h1>
+          {metrics ? (
+            <div>
+              <div className="metric">Active Users: {metrics.active_users}</div>
+              <div className="metric">
+                Storage Used: {metrics.storage_used_bytes} / {metrics.storage_total_bytes} bytes
+              </div>
+            </div>
+          ) : (
+            <div>Loading metrics...</div>
+          )}
+          <h2>Messages</h2>
+          <div id="messages">
+            {messages.map((m, i) => (
+              <div key={i} className="message">{m}</div>
+            ))}
+          </div>
+        </div>
+      );
     }
-    loadMetrics();
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
   </script>
 </body>
 </html>
