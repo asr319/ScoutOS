@@ -7,3 +7,4 @@ aioredis
 boto3
 prometheus-client
 python-jose[cryptography]
+SQLAlchemy
