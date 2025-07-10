@@ -16,6 +16,8 @@ You can also experiment with the AI chat interface at `/chat.html` which connect
 
 The backend now exposes an AI API at `/api/ai/prompt`. Each request persists the prompt and generated response in a local SQLite database so the agent can recall prior interactions.
 
+There are also endpoints for storing long-lived notes. POST JSON `{ "topic": "label", "content": "text", "summary": "optional" }` to `/api/memory` to persist a memory entry. Retrieve all entries for a topic via `GET /api/memory/{topic}`.
+
 ## Backend configuration
 
 Set a strong `SECRET_KEY` environment variable before starting the backend. If this variable isn't defined, the app defaults to a testing key which should not be used in production.

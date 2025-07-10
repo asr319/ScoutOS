@@ -6,6 +6,7 @@ combines a **FastAPI** backend with a **React** dashboard and is bundled using
 It now ships with a basic AI chat page for testing backend integrations.
 
 The backend also features an AI API that records prompts and responses in a local SQLite database.
+Additional endpoints let you store categorized notes for the assistant and fetch them later by topic.
 
 For step‑by‑step installation and server instructions, see the
 [project README](../README.md).
