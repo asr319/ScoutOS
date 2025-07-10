@@ -22,6 +22,19 @@ async def handshake(user_id: str = Depends(get_current_user)):
     return {"message": f"Handshake successful for user {user_id}"}
 
 
+@router.get("/dashboard")
+async def dashboard():
+    from .metrics_utils import get_storage_usage, get_active_users_count
+
+    active_users = await get_active_users_count()
+    used_bytes, total_bytes = await get_storage_usage("/")
+    return {
+        "active_users": active_users,
+        "storage_used_bytes": used_bytes,
+        "storage_total_bytes": total_bytes,
+    }
+
+
 @router.post("/upload-document")
 async def upload_document(
     file: UploadFile = File(...),
