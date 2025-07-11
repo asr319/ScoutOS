@@ -2,58 +2,108 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>ScoutOS Dashboard</title>
+  <title>ScoutOS Memory Portal</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 2em; }
-    .metric { margin-bottom: 1em; }
-    .message { border-bottom: 1px solid #ccc; padding: 4px 0; }
+    label { display: block; margin-top: 0.5em; }
+    textarea { width: 100%; }
+    .mem { border-bottom: 1px solid #ccc; padding: 4px 0; }
   </style>
 </head>
 <body>
-  <div id="root">Loading...</div>
+    <div id="root">Loading...</div>
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
   <script type="text/babel">
     function App() {
-      const [metrics, setMetrics] = React.useState(null);
-      const [messages, setMessages] = React.useState([]);
+      const [token, setToken] = React.useState('');
+      const [topic, setTopic] = React.useState('');
+      const [summary, setSummary] = React.useState('');
+      const [content, setContent] = React.useState('');
+      const [memories, setMemories] = React.useState([]);
 
-      React.useEffect(() => {
-        async function load() {
-          try {
-            const res = await fetch('/api/dashboard');
-            const data = await res.json();
-            setMetrics(data);
-          } catch (err) {
-            console.error(err);
-          }
+      async function loadMemories() {
+        if (!token || !topic) return;
+        try {
+          const res = await fetch(`/api/memory/${encodeURIComponent(topic)}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const data = await res.json();
+          setMemories(data.memories || []);
+        } catch (err) {
+          console.error(err);
         }
-        load();
-        const ws = new WebSocket(`ws://${window.location.host}/ws/guest`);
-        ws.onmessage = event => {
-          setMessages(msgs => [...msgs, event.data]);
-        };
-        return () => ws.close();
-      }, []);
+      }
+
+      async function saveMemory() {
+        if (!token || !topic || !content) return;
+        try {
+          await fetch('/api/memory', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ topic, content, summary }),
+          });
+          setContent('');
+          setSummary('');
+          await loadMemories();
+        } catch (err) {
+          console.error(err);
+        }
+      }
 
       return (
         <div>
-          <h1>ScoutOS Dashboard</h1>
-          {metrics ? (
-            <div>
-              <div className="metric">Active Users: {metrics.active_users}</div>
-              <div className="metric">
-                Storage Used: {metrics.storage_used_bytes} / {metrics.storage_total_bytes} bytes
+          <h1>ScoutOS Memory Portal</h1>
+          <label>
+            JWT Token
+            <input
+              type="text"
+              value={token}
+              onChange={e => setToken(e.target.value)}
+              style={{ width: '100%' }}
+            />
+          </label>
+          <label>
+            Topic
+            <input
+              type="text"
+              value={topic}
+              onChange={e => setTopic(e.target.value)}
+              style={{ width: '100%' }}
+            />
+          </label>
+          <label>
+            Summary (optional)
+            <input
+              type="text"
+              value={summary}
+              onChange={e => setSummary(e.target.value)}
+              style={{ width: '100%' }}
+            />
+          </label>
+          <label>
+            Content
+            <textarea
+              rows="4"
+              value={content}
+              onChange={e => setContent(e.target.value)}
+            />
+          </label>
+          <button onClick={saveMemory}>Save</button>
+          <button onClick={loadMemories} style={{ marginLeft: '0.5em' }}>
+            Load Topic
+          </button>
+          <div id="memories">
+            {memories.map(m => (
+              <div key={m.id} className="mem">
+                <strong>{m.summary || '(no summary)'}</strong>
+                <div>{m.content}</div>
+                <small>{new Date(m.created_at).toLocaleString()}</small>
               </div>
-            </div>
-          ) : (
-            <div>Loading metrics...</div>
-          )}
-          <h2>Messages</h2>
-          <div id="messages">
-            {messages.map((m, i) => (
-              <div key={i} className="message">{m}</div>
             ))}
           </div>
         </div>

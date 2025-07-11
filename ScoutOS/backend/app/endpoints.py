@@ -12,8 +12,8 @@ from .auth import get_current_user
 from .websocket_manager import manager
 from .consent import get_consent_message
 from .database import SessionLocal
-from .ai import save_prompt
-from .schemas import AIPrompt
+from .ai import save_prompt, save_memory, get_memories_by_topic
+from .schemas import AIPrompt, MemoryCreate
 import logging
 
 
@@ -80,6 +80,37 @@ async def ai_prompt(
     response = data.prompt[::-1]
     save_prompt(db, user_id, data.prompt, response)
     return {"response": response}
+
+
+@router.post("/memory")
+async def create_memory(
+    memory: MemoryCreate,
+    user_id: str = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    save_memory(db, user_id, memory.topic, memory.content, memory.summary)
+    return {"message": "Memory saved"}
+
+
+@router.get("/memory/{topic}")
+async def read_memory(
+    topic: str,
+    user_id: str = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    mems = get_memories_by_topic(db, user_id, topic)
+    return {
+        "memories": [
+            {
+                "id": m.id,
+                "topic": m.topic,
+                "summary": m.summary,
+                "content": m.content,
+                "created_at": m.created_at,
+            }
+            for m in mems
+        ]
+    }
 
 
 @router.post("/request-merge")
